@@ -1,0 +1,251 @@
+
+NOTA:
+
+() == no llevan parentesis.
+("") == si llevan parentesis.
+
+COMANDO PARA BASE DE DATOS EN SQL SERVER
+{
+
+CREATE DATABASE (nombre de base de datos) --> Crea una base de datos.
+
+USE (nombre de base de datos) --> Permite usar base de datos.
+
+CREATE TABLE(nombre de tabla)("nombre de los campos de la base de datos") --> Permite crear tabla.
+
+PRIMARY KEY --> identifica de manera unica cada fila de una tabla.
+
+INSERT INTO (nombre de la tabla) VALUES (valores) --> insertar data en una tabla.
+
+SELECT * FROM (nombre de tabla) --> Consulta todas las columnas de una tabla.
+
+WHERE (condicion) --> Permite traer un registro de una tabla.
+
+DELETE --> elimina registros.
+
+DROP --> elimina la estructura (tabla).
+
+TRUNCATE --> elimina registros (reset).
+
+UPDATE (tabla) SET (campos de la tabla) WHERE (campo en especifico)--> actualiza una tabla.
+
+SET --> cambia una columna de la tabla.
+
+SELECT ('palabra a concatenar' + campo) FROM (tabla) --> la concatenacion puede ser en cualquier lugar. 
+
+AS --> se usa para cambiar el nombre de un campo de una tabla temporalmente.
+
+}
+
+IDENTITY
+{
+
+IDENTITY --> por defecto el identity empieza de 1 y su incremento es de 1.
+
+SELECT IDENT_SEED("nombre de la tabla" lleva comillas simples) --> muestra donde comienza el numero del identity.
+
+SELECT IDENT_INCR("nombre de la tabla" lleva comillas simples) --> muestra como es el incremento de la tabla.
+
+SET IDENTITY_INSERT (nombre de la tabla) on --> activa la opcion de repeticion en una tabla con identity.
+
+SET IDENTITY_INSERT (nombre de la tabla) off --> desactiva la opcion de repeticion en una tabla con identity.
+
+INSERT INTO (nombre de la tabla)("nombres de las columnas") VALUES (valores) --> comando para repetir un valor de identity.
+
+}
+
+
+FUNCIONES DE AGREGADO
+{
+
+SELECT COUNT(muestra la cuenta), SUM(muestra la suma), MAX(muestra el maximo), MIN(muestra el minimo) --> son funciones de agregado. Ejemplo --> SELECT (funcion de agregado)('campo de la tabla') FROM (tabla).
+
+}
+
+
+FUNCIONES DE AGREGADO
+{
+	
+SELECT SUBSTRING('campo o cadena de caracteres', numero de letras que vamos a eliminar, numero de letras que vamos a mostrar a partir de la que borramos) --> funciones de cadenas de caracteres.
+
+SELECT STR(campo o numeros que queremos convertir a cadena de caracter) --> funciones de cadenas de caracteres.
+
+SELECT STUFF('campo o cadena de caracteres', numeros de donde empieza el reemplazo, numero de la palabra que vamos a reemplazar, 'palabra que vamos por la que vamos a reemplazar') --> funciones de cadenas de caracteres.
+
+SELECT LEN('campo o cadena de caracteres que queremos contar la longitud') --> funciones de cadenas de caracteres.
+
+SELECT CHAR(numero de codigo ascii que queremos mostrar) --> funciones de cadenas de caracteres. 
+
+SELECT LOWER('campo o cadena de caracteres que queremos convertir a minuscula') --> funciones de cadenas de caracteres. 
+
+SELECT UPPER('campo o cadena de caracteres que queremos convertir a mayuscula') --> funciones de cadenas de caracteres. 
+
+SELECT LTRIM('campo o cadena de caracteres de la que queremos eliminar espacios de la izquierda') --> funciones de cadenas de caracteres.
+
+SELECT RTRIM('campo o cadena de caracteres de la que queremos eliminar espacios de la derecha') --> funciones de cadenas de caracteres.
+
+SELECT REPLACE('campo o cadena de caracteres sin modificacion','palabra que queremos modificar del campo o cadena de caracteres', 'palabra por la que vamos a reemplazar') --> funciones de cadenas de caracteres.
+
+SELECT REVERSE('campo o cadena de caracteres que queremos invertir') --> funciones de cadenas de caracteres.
+
+SELECT PATINDEX('palabra que queremos buscar y nos devuelve en que posicion esta', 'campo o cadena de caracteres que queramos') --> funciones de cadenas de caracteres.
+
+SELECT REPLICATE('campo o cadena de caracteres que queremos repetir', numeros de veces que queremos repetir) --> funciones de cadenas de caracteres.
+
+SELECT ('campo o cadena de caracteres que queramos') + SPACE(numero de espacio que queramos) + "campo o cadena de caracteres que queramos"  --> funciones de cadenas de caracteres.
+
+}
+
+ORDER BY
+{
+
+SELECT * FROM (nombre de tabla) ORDER BY (nombre del campo que queremos ordenar) --> comando para ordernar alfabeticamente o de menor a mayor.
+
+SELECT * FROM (nombre de tabla) ORDER BY (nombre del campo que queremos ordenar) ASC --> se ordena de manera ascendente.
+
+SELECT * FROM (nombre de tabla) ORDER BY (nombre del campo que queremos ordenar) DESC --> se ordena de manera descendente.
+
+}
+
+OPERADORES LOGICOS
+{
+
+SELECT * FROM (nombre de tabla) WHERE NOT (condicion) --> esto significa 'negacion' (!=), y hacemos excepciones.
+
+SELECT * FROM(nombre de tabla) WHERE (condicion) AND (condicion) --> esto significa 'y' (&&), y todas las condiciones unidas por el and deben cumplirse o no trae nada.
+
+SELECT * FROM(nombre de tabla) WHERE (condicion) OR (condicion) --> esto significa 'o' (||), y si no se cumple una condicion trae la otra.
+
+}
+
+COMANDOS ESPECIALES
+{
+
+SELECT (nombres de los campos y los operadores aritmeticos en medio) FROM (nombre de la tabla) --> comando para usar operadores arismeticos. 
+
+SELECT AVG(campo de entero) FROM (nombre de tabla) --> retornar el promedio.
+
+}  
+
+COMANDOS DE CLAUSURAS
+{
+
+SELECT * FROM (nombre de tabla) WHERE (condicion) IS NULL --> muestra todos los valores que son nulo.
+
+SELECT * FROM (nombre de tabla) WHERE (condicion) IS NOT NULL --> muestra todos los valores que no son nulo.
+
+SELECT * FROM (nombre de tabla) WHERE (campo) BETWEEN (valores) --> muestra todos los valores que este entre esos valores.
+
+SELECT * FROM (nombre de tabla) WHERE (campo) LIKE ('%palabra%') --> busca los valores que tengan esa palabra donde quiera que este.
+
+SELECT * FROM (nombre de tabla) WHERE (campo) LIKE ('palabra%') --> busca los valores que tengan esa palabra que aparezcan al principio.
+
+SELECT * FROM (nombre de tabla) WHERE (campo) LIKE ('%palabra') --> busca los valores que tengan esa palabra que aparezcan al final.
+
+SELECT * FROM (nombre de tabla) WHERE (campo) LIKE ('%pala_ra%') --> busca todos los valores que parecido a la palabra ingresada.Por ejemplo a '%pala_ra%' le falta la b, este comando busca ese ejemplo con b o v.
+
+SELECT (campo), AVG(campo de entero) FROM (nombre de tabla) WHERE (condicion) GROUP BY (campo de carateres) HAVING AVG(campo entero)
+
+SELECT (campo) FROM (nombre de tabla) COMPUTE(campo) --> realiza y muestra otra consulta a la base de datos.
+
+SELECT DISTINCT (campo) FROM (nombre de tabla) --> Te muestra solamente un elemento de varios elementos en una tabla, tambiem se puede usar con operadores arismeticos. EJ: SELECT SUM (DISTINCT campo) FROM (nombre de tabla).
+
+SELECT TOP (numero de filas que quieres mostrar) (campo O *) FROM (nombre de tabla) --> Muestra el numero de filas que queremos mostrar.
+
+SELECT * FROM (nombre de la tabla) WHERE (campo) IN ("valores") --> podemos buscar varios valores en una consulta. 
+
+}
+
+JOIN
+{
+
+	SELECT * FROM (nombre de tabla) INNER JOIN (nombre de la tabla que tiene la relacion) ON (especificamos los id) --> trae todo los datos de las dos o mas tablas.
+
+	SELECT * FROM (nombre de tabla) LEFT JOIN (nombre de la tabla que tiene la relacion) ON (especificamos los id) --> trae todo los datos de la tabla izquierda aunque no tenga ninguna relacion y solamente se puede hacer a dos tablas.
+
+	SELECT * FROM (nombre de tabla) RIGHT JOIN (nombre de la tabla que tiene la relacion) ON (especificamos los id) --> trae todo los datos de la tabla derecha aunque no tenga ninguna relacion y solamente se puede hacer a dos tablas.
+
+	UPDATE (nombre de tabla) SET (campo con valores) FROM (nombre de tabla) INNER JOIN (nombre de la tabla que tiene la relacion) ON (especificamos los id) WHERE (id que queremos cambiar)--> actualizacion de un campo de una tabla con join.
+
+	DELETE (nombre de tabla) FROM (nombre de tabla) INNER JOIN (nombre de la tabla que tiene la relacion) ON (especificamos los id) WHERE (id que queremos borrar)--> elimina un campo de una tabla con join.
+
+}
+
+ALTER TABLE
+{
+	
+	ALTER TABLE (tabla) ADD (nombre del campo)(tipo de dato) --> agrega un campo a la tabla.
+
+	ALTER TABLE (tabla) DROP COLUMN (nombre del campo) --> elimina un campo de la tabla. 
+
+	ALTER TABLE (tabla) ADD (nombre del campo)(tipo de dato) AS (podemos hacer formulas para calcular campos) --> campos calculados y no podemos borrar los campos que se usen para hacer formulas.
+
+}
+
+SUB CONSULTAS
+{
+
+	SELECT * FROM(nombre de tabla) WHERE (campo) = ("SELECT (nombre del campo anterior) FROM(nombre de tabla) WHERE (condicion)") --> realiza una sub consulta.
+
+	SELECT * FROM (nombre de la tabla) WHERE (campo) IN ("SELECT (nombre del campo anterior) FROM(nombre de tabla) WHERE (condicion)") --> muestra varias sub consultas .
+
+	SELECT * FROM(nombre de tabla) WHERE (campo) = ANY ("SELECT (nombre del campo anterior) FROM(nombre de tabla) WHERE (condicion)") --> es lo mismo que la funcion IN.
+
+	SELECT * FROM(nombre de tabla) WHERE (campo) = <> ALL ("SELECT (nombre del campo anterior) FROM(nombre de tabla) WHERE (condicion)") --> es lo mismo que la funcion NOT IN.
+
+	UPDATE (tabla) SET (campo) = (valor) WHERE (campo) = ANY ("SELECT (nombre del campo anterior) FROM(nombre de tabla) WHERE (condicion)") --> actualizacion con sub consultas.
+
+	DELETE (tabla) WHERE (campo) = ANY ("SELECT (nombre del campo anterior) FROM(nombre de tabla) WHERE (condicion)") --> eliminacion con sub consultas.
+
+	INSERT INTO (tabla vacia) VALUES (campo de la tabla vacia) SELECT (campo) FROM (tabla) --> insertar datos con una sub consulta.
+
+}
+
+VISTAS
+{
+	
+	CREATE VIEW (nombre de la vista) AS SELECT (campo/s de la tabla) FROM (tabla) --> crea vista.
+
+	SP_HELPTEXT (nombre de la vista) --> revela informacion de la tabla de donde sacaste la vista.
+
+	REATE VIEW (nombre de la vista) WITH ENCRYPTION AS SELECT (campo de la tabla) FROM (tabla) --> encripta la informacion de la tabla de donde sacaste la vista.
+
+	DROP VIEW (nombre de la vista) --> elimina una vista.
+
+	UPDATE (nombre de la vista) SET (campo) = (valor) WHERE (codicion) --> actualiza los datos de la vista asi como la tabla de origen.
+
+	DELETE FROM (nombre de la vista) --> elimina los datos de la vista asi como la tabla de origen.
+
+	CREATE VIEW (nombre de la vista) AS SELECT (campo/s de la tabla) FROM (tabla) WITH CHECK OPTION --> valida que cualquier CRUD cumpla con la condicion.
+
+	ALTER VIEW (nombre de la vista) AS SELECT (campo/s de la tabla) FROM (tabla) --> altera la vista.
+
+}
+
+LENGUAJE DE CONTROL DE FLUJO
+{
+	
+	SELECT (campo/s de la tabla) = CASE (campo a evaluar) WHEN (lo que queremos que se cumpla o condicion) THEN (palabra que muestra las condiciones que se cumplieron) END FROM (tabla) --> condicion case, podemos poner todos los WHEN como THEN que queramos.
+
+	IF EXISTS ("SELECT * FROM (nombre de la tabla) WHERE (condicion)")
+	
+	BEGIN
+	SELECT * FROM (nombre de la tabla)
+	END
+
+	ELSE
+
+	BEGIN
+	SELECT "No existe" 
+	END
+	--> condicion IF, con begin y end podemos poner todas las sentencias que queramos.
+}
+
+VARIABLES
+{
+	
+	DECLARE (nombre de la variable) (tipo de dato) SET (nombre de la variable) = (valor o sub consulta) --> creamos una variable y las variables se inicializan con una @.
+
+
+
+}
