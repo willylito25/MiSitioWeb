@@ -3,6 +3,7 @@ NOTA:
 
 () == no llevan parentesis.
 ("") == si llevan parentesis.
+('') == si llevan comillas simples sin parentesis
 
 COMANDO PARA BASE DE DATOS EN SQL SERVER
 {
@@ -123,7 +124,6 @@ COMANDOS ESPECIALES
 
 SELECT (nombres de los campos y los operadores aritmeticos en medio) FROM (nombre de la tabla) --> comando para usar operadores arismeticos. 
 
-
 SELECT AVG(campo de entero) FROM (nombre de tabla) --> retornar el promedio.
 
 }  
@@ -153,6 +153,210 @@ SELECT DISTINCT (campo) FROM (nombre de tabla) --> Te muestra solamente un eleme
 
 SELECT TOP (numero de filas que quieres mostrar) (campo O *) FROM (nombre de tabla) --> Muestra el numero de filas que queremos mostrar.
 
+SELECT * FROM (nombre de la tabla) WHERE (campo) IN ("valores") --> podemos buscar varios valores en una consulta. 
 
+}
+
+JOIN
+{
+
+	SELECT * FROM (nombre de tabla) INNER JOIN (nombre de la tabla que tiene la relacion) ON (especificamos los id) --> trae todo los datos de las dos o mas tablas.
+
+	SELECT * FROM (nombre de tabla) LEFT JOIN (nombre de la tabla que tiene la relacion) ON (especificamos los id) --> trae todo los datos de la tabla izquierda aunque no tenga ninguna relacion y solamente se puede hacer a dos tablas.
+
+	SELECT * FROM (nombre de tabla) RIGHT JOIN (nombre de la tabla que tiene la relacion) ON (especificamos los id) --> trae todo los datos de la tabla derecha aunque no tenga ninguna relacion y solamente se puede hacer a dos tablas.
+
+	UPDATE (nombre de tabla) SET (campo con valores) FROM (nombre de tabla) INNER JOIN (nombre de la tabla que tiene la relacion) ON (especificamos los id) WHERE (id que queremos cambiar)--> actualizacion de un campo de una tabla con join.
+
+	DELETE (nombre de tabla) FROM (nombre de tabla) INNER JOIN (nombre de la tabla que tiene la relacion) ON (especificamos los id) WHERE (id que queremos borrar)--> elimina un campo de una tabla con join.
+
+}
+
+ALTER TABLE
+{
+	
+	ALTER TABLE (tabla) ADD (nombre del campo)(tipo de dato) --> agrega un campo a la tabla.
+
+	ALTER TABLE (tabla) DROP COLUMN (nombre del campo) --> elimina un campo de la tabla. 
+
+	ALTER TABLE (tabla) ADD (nombre del campo)(tipo de dato) AS (podemos hacer formulas para calcular campos) --> campos calculados y no podemos borrar los campos que se usen para hacer formulas.
+
+}
+
+SUB CONSULTAS
+{
+
+	SELECT * FROM(nombre de tabla) WHERE (campo) = ("SELECT (nombre del campo anterior) FROM(nombre de tabla) WHERE (condicion)") --> realiza una sub consulta.
+
+	SELECT * FROM (nombre de la tabla) WHERE (campo) IN ("SELECT (nombre del campo anterior) FROM(nombre de tabla) WHERE (condicion)") --> muestra varias sub consultas .
+
+	SELECT * FROM(nombre de tabla) WHERE (campo) = ANY ("SELECT (nombre del campo anterior) FROM(nombre de tabla) WHERE (condicion)") --> es lo mismo que la funcion IN.
+
+	SELECT * FROM(nombre de tabla) WHERE (campo) = <> ALL ("SELECT (nombre del campo anterior) FROM(nombre de tabla) WHERE (condicion)") --> es lo mismo que la funcion NOT IN.
+
+	UPDATE (tabla) SET (campo) = (valor) WHERE (campo) = ANY ("SELECT (nombre del campo anterior) FROM(nombre de tabla) WHERE (condicion)") --> actualizacion con sub consultas.
+
+	DELETE (tabla) WHERE (campo) = ANY ("SELECT (nombre del campo anterior) FROM(nombre de tabla) WHERE (condicion)") --> eliminacion con sub consultas.
+
+	INSERT INTO (tabla vacia) VALUES (campo de la tabla vacia) SELECT (campo) FROM (tabla) --> insertar datos con una sub consulta.
+
+}
+
+VISTAS
+{
+	
+	CREATE VIEW (nombre de la vista) AS SELECT (campo/s de la tabla) FROM (tabla) --> crea vista.
+
+	SP_HELPTEXT (nombre de la vista) --> revela informacion de la tabla de donde sacaste la vista.
+
+	REATE VIEW (nombre de la vista) WITH ENCRYPTION AS SELECT (campo de la tabla) FROM (tabla) --> encripta la informacion de la tabla de donde sacaste la vista.
+
+	DROP VIEW (nombre de la vista) --> elimina una vista.
+
+	UPDATE (nombre de la vista) SET (campo) = (valor) WHERE (codicion) --> actualiza los datos de la vista asi como la tabla de origen.
+
+	DELETE FROM (nombre de la vista) --> elimina los datos de la vista asi como la tabla de origen.
+
+	CREATE VIEW (nombre de la vista) AS SELECT (campo/s de la tabla) FROM (tabla) WITH CHECK OPTION --> valida que cualquier CRUD cumpla con la condicion.
+
+	ALTER VIEW (nombre de la vista) AS SELECT (campo/s de la tabla) FROM (tabla) --> altera la vista.
+
+}
+
+LENGUAJE DE CONTROL DE FLUJO
+{
+	
+	SELECT (campo/s de la tabla) = CASE (campo a evaluar) WHEN (lo que queremos que se cumpla o condicion) THEN (palabra que muestra las condiciones que se cumplieron) END FROM (tabla) --> condicion case, podemos poner todos los WHEN como THEN que queramos.
+
+	IF EXISTS ("SELECT * FROM (nombre de la tabla) WHERE (condicion)")
+	
+	BEGIN
+	SELECT * FROM (nombre de la tabla)
+	END
+
+	ELSE
+
+	BEGIN
+	SELECT "No existe" 
+	END
+	--> condicion IF, con begin y end podemos poner todas las sentencias que queramos.
+}
+
+VARIABLES
+{
+	
+	DECLARE (nombre de la variable) (tipo de dato) SET (nombre de la variable) = (valor o sub consulta) --> creamos una variable y las variables se inicializan con una @.
+
+}
+
+PROCEDIMIENTOS ALMACENADOS
+{
+	CREATE PROCEDURE (nombre del procedimiento) AS (cualquier sentencia EJ.SELECT (campos que yo quiero mostrar) FROM (nombre de tabla) WHERE (condicion) ) --> creacion de un procedimiento almacenado.
+
+	EXEC (nombre del procedimiento) --> comando para ejecutar un procedimiento.
+
+	DROP PROC (nombre del procedimiento) --> elimina un procedimiento.
+
+	CREATE PROCEDURE(nombre del procedimiento) (parametros de entradas con sus tipos de datos)  AS (cualquier sentencia) --> crear procedimiento con parametros de entradas, se le puede asignar valores por defecto a los parametros de entrada.
+
+	EXEC (nombre del procedimiento) (valores de los parametros de entrada) --> ejecutando un procedimiento con paramentros de entrada.
+
+	CREATE PROCEDURE(nombre del procedimiento) (parametros de salida con sus tipos de datos + la palabra output)  AS SET (nombre del parametro de salida) = (asignamos como valor una sub consulta) --> creamos los parametros de salida.
+
+	DECLARE (nombre de la variable) (tipo de dato)
+	EXEC (ponemos la variable para almacenar el parametro de salida + la palabra output)
+	SELECT (nombre de la variable) --> ejecutamos los procedimientos con parametros de salida.
+
+	CREATE PROCEDURE(nombre del procedimiento) (parametros de entradas con sus tipos de datos)  AS 
+	IF (parametro creado IS NULL) 
+	return 0
+	ELSE
+	return 1 
+	DECLARE (nombre de la variable para almacenar el valor del return) (tipo de dato igual a return)
+	EXEC (nombre de la variable) = (nombre del procedimiento) (valores de los parametros de entradas)
+	SELECT (nombre de la variable) --> crear procedimiento con return.
+
+	sp_help --> Muestra objetos de la base de datos.
+
+	sp_helptext (tabla, bd, vista, procedimiento, triggers) --> Texto que define el objeto
+	sp_stored_procedures --> Muestra todos los procedimientos almacenados.
+
+	sp_depends  (tabla, bd, vista, procedimiento, triggers)
+	/* 1) nombre, tipo, campos, etc. de los objetos de los cuales depende el objeto enviado 
+	 2) nombre y tipo de los objetos que dependen del objeto nombrado. 
+	*/
+
+	select * from sysobjects  --> muestra nombre y varios datos de todos los objetos de la base de datos actual.
+
+	CREATE o ALTER PROCEDURE (nombre del procedimiento) WITH ENCRYPTION AS (cualquier sentencia EJ.SELECT (campos que yo quiero mostrar) FROM (nombre de tabla) WHERE (condicion) ) --> podemos crear o alterar un procedimiento para encriptarlo.
+
+	*Anidacion
+
+	//1er Procedimiento
+	CREATE PROCEDURE(nombre del procedimiento) (parametros de salida con sus tipos de datos + la palabra output)  AS SET (nombre del parametro de salida) = (asignamos como valor una sub consulta) --> creamos el 1er procedimiento.
+
+	//2do Procedimiento
+	CREATE PROCEDURE(nombre del procedimiento) (parametros de salida con sus tipos de datos + la palabra output)  AS 
+	BEGIN
+	DECLARE (nombre de la variable) (tipo de dato)
+	EXEC (1er procedimiento) (nombre de la varible para almacenar valor + output)
+	SET (nombre del parametro del segundo procedimiento) = (nombre de la variable)
+	END
+
+	//Mostramos los datos
+	DECLARE (nombre de la variable) (tipo de dato)
+	EXEC (2do procedimiento) (nombre de esta variable + output)
+	SELECT (nombre de esta variable)
+
+}
+
+TRIGGERS
+{
+	// Creacion de un trigger que cada vez que inserta en la tabla de ON, va actualiza la 2da tabla que guarda los valores de la tabla ON
+
+	CREATE TRIGGER (nombre del trigger)
+	ON (nombre de la 1ra tabla) --Indicamos la tabla donde se activara la accion 
+	FOR INSERT --Despues del evento de insertar en la tabla donde se activara la accion
+	AS
+	BEGIN--Comienza las sentencias
+	DECLARE (nombre de la variable) (tipo de dato) SET (nombre de la variable) = (sub consulta, EJ. select sum(campo) from (la misma tabla que esta en ON))-obtenemos la suma de las cantidades y lo asignamos a la variable
+	UPDATE (2da tabla donde se reflejaran los cambios) SET (nombre de tabla).(campo) = (nombre de la variable) --hacemos un update a la 2da tabla
+	END -- fin de las sentencias
+
+	// Creacion de un trigger que cada vez que actualice en la tabla de ON, va a insertar un valor por defecto o sentencia que le indicamos en la 2da tabla que pongamos
+
+	CREATE TRIGGER (nombre del trigger)
+	ON (nombre de la 1ra tabla) --Indicamos la tabla donde se activara la accion 
+	FOR UPDATE --Despues del evento de insertar en la tabla donde se activara la accion
+	AS
+	BEGIN--Comienza las sentencias
+	DECLARE (nombre de la variable) (tipo de dato)SET (nombre de la variable) = (sub consulta, EJ. select sum(campo) from (la misma tabla que esta en ON))-obtenemos la suma de las cantidades y lo asignamos a la variable
+	insert into (2da tabla) values (valores)
+	END ---- fin de las sentencias
+
+	// Creacion de un trigger que cada vez que elimina en la tabla de ON, va actualiza la 2da tabla que guarda los valores de la tabla ON 
+
+	CREATE TRIGGER (nombre del trigger)
+	ON (nombre de la 1ra tabla) --Indicamos la tabla donde se activara la accion 
+	FOR DELETE --Despues del evento de insertar en la tabla donde se activara la accion
+	AS
+	BEGIN--Comienza las sentencias
+	DECLARE (nombre de la variable) (tipo de dato) SET (nombre de la variable) = (sub consulta, EJ. select sum(campo) from (la misma tabla que esta en ON))-obtenemos la suma de las cantidades y lo asignamos a la variable
+	UPDATE (2da tabla donde se reflejaran los cambios) SET (nombre de tabla).(campo) = (nombre de la variable) --hacemos un update a la 2da tabla
+	END -- fin de las sentencias
+
+	// Activar o Desativar Trigger
+
+	ALTER TABLE (nombre de la tabla) ENABLE/DISABLE TRIGGER (nombre del trigger)
+
+}
+
+INDICES
+{
+	EXEC SP_HELPINDEX ('nombre de la tabla') --> verifica si una tabla tiene indices.
+
+	CREATE CLUSTERED INDEX (IDX_ + nombre) ON (nombre de la tabla) ("campo de la tabla") --> creacion de indice agrupado.
+
+	CREATE NONCLUSTERED INDEX (IDX_ + nombre) ON (nombre de la tabla) ("campo de la tabla") --> creacion de indice no agrupado.
 
 }

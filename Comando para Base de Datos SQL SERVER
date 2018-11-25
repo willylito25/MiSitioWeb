@@ -3,6 +3,7 @@ NOTA:
 
 () == no llevan parentesis.
 ("") == si llevan parentesis.
+('') == si llevan comillas simples sin parentesis
 
 COMANDO PARA BASE DE DATOS EN SQL SERVER
 {
@@ -246,6 +247,116 @@ VARIABLES
 	
 	DECLARE (nombre de la variable) (tipo de dato) SET (nombre de la variable) = (valor o sub consulta) --> creamos una variable y las variables se inicializan con una @.
 
+}
 
+PROCEDIMIENTOS ALMACENADOS
+{
+	CREATE PROCEDURE (nombre del procedimiento) AS (cualquier sentencia EJ.SELECT (campos que yo quiero mostrar) FROM (nombre de tabla) WHERE (condicion) ) --> creacion de un procedimiento almacenado.
+
+	EXEC (nombre del procedimiento) --> comando para ejecutar un procedimiento.
+
+	DROP PROC (nombre del procedimiento) --> elimina un procedimiento.
+
+	CREATE PROCEDURE(nombre del procedimiento) (parametros de entradas con sus tipos de datos)  AS (cualquier sentencia) --> crear procedimiento con parametros de entradas, se le puede asignar valores por defecto a los parametros de entrada.
+
+	EXEC (nombre del procedimiento) (valores de los parametros de entrada) --> ejecutando un procedimiento con paramentros de entrada.
+
+	CREATE PROCEDURE(nombre del procedimiento) (parametros de salida con sus tipos de datos + la palabra output)  AS SET (nombre del parametro de salida) = (asignamos como valor una sub consulta) --> creamos los parametros de salida.
+
+	DECLARE (nombre de la variable) (tipo de dato)
+	EXEC (ponemos la variable para almacenar el parametro de salida + la palabra output)
+	SELECT (nombre de la variable) --> ejecutamos los procedimientos con parametros de salida.
+
+	CREATE PROCEDURE(nombre del procedimiento) (parametros de entradas con sus tipos de datos)  AS 
+	IF (parametro creado IS NULL) 
+	return 0
+	ELSE
+	return 1 
+	DECLARE (nombre de la variable para almacenar el valor del return) (tipo de dato igual a return)
+	EXEC (nombre de la variable) = (nombre del procedimiento) (valores de los parametros de entradas)
+	SELECT (nombre de la variable) --> crear procedimiento con return.
+
+	sp_help --> Muestra objetos de la base de datos.
+
+	sp_helptext (tabla, bd, vista, procedimiento, triggers) --> Texto que define el objeto
+	sp_stored_procedures --> Muestra todos los procedimientos almacenados.
+
+	sp_depends  (tabla, bd, vista, procedimiento, triggers)
+	/* 1) nombre, tipo, campos, etc. de los objetos de los cuales depende el objeto enviado 
+	 2) nombre y tipo de los objetos que dependen del objeto nombrado. 
+	*/
+
+	select * from sysobjects  --> muestra nombre y varios datos de todos los objetos de la base de datos actual.
+
+	CREATE o ALTER PROCEDURE (nombre del procedimiento) WITH ENCRYPTION AS (cualquier sentencia EJ.SELECT (campos que yo quiero mostrar) FROM (nombre de tabla) WHERE (condicion) ) --> podemos crear o alterar un procedimiento para encriptarlo.
+
+	*Anidacion
+
+	//1er Procedimiento
+	CREATE PROCEDURE(nombre del procedimiento) (parametros de salida con sus tipos de datos + la palabra output)  AS SET (nombre del parametro de salida) = (asignamos como valor una sub consulta) --> creamos el 1er procedimiento.
+
+	//2do Procedimiento
+	CREATE PROCEDURE(nombre del procedimiento) (parametros de salida con sus tipos de datos + la palabra output)  AS 
+	BEGIN
+	DECLARE (nombre de la variable) (tipo de dato)
+	EXEC (1er procedimiento) (nombre de la varible para almacenar valor + output)
+	SET (nombre del parametro del segundo procedimiento) = (nombre de la variable)
+	END
+
+	//Mostramos los datos
+	DECLARE (nombre de la variable) (tipo de dato)
+	EXEC (2do procedimiento) (nombre de esta variable + output)
+	SELECT (nombre de esta variable)
+
+}
+
+TRIGGERS
+{
+	// Creacion de un trigger que cada vez que inserta en la tabla de ON, va actualiza la 2da tabla que guarda los valores de la tabla ON
+
+	CREATE TRIGGER (nombre del trigger)
+	ON (nombre de la 1ra tabla) --Indicamos la tabla donde se activara la accion 
+	FOR INSERT --Despues del evento de insertar en la tabla donde se activara la accion
+	AS
+	BEGIN--Comienza las sentencias
+	DECLARE (nombre de la variable) (tipo de dato) SET (nombre de la variable) = (sub consulta, EJ. select sum(campo) from (la misma tabla que esta en ON))-obtenemos la suma de las cantidades y lo asignamos a la variable
+	UPDATE (2da tabla donde se reflejaran los cambios) SET (nombre de tabla).(campo) = (nombre de la variable) --hacemos un update a la 2da tabla
+	END -- fin de las sentencias
+
+	// Creacion de un trigger que cada vez que actualice en la tabla de ON, va a insertar un valor por defecto o sentencia que le indicamos en la 2da tabla que pongamos
+
+	CREATE TRIGGER (nombre del trigger)
+	ON (nombre de la 1ra tabla) --Indicamos la tabla donde se activara la accion 
+	FOR UPDATE --Despues del evento de insertar en la tabla donde se activara la accion
+	AS
+	BEGIN--Comienza las sentencias
+	DECLARE (nombre de la variable) (tipo de dato)SET (nombre de la variable) = (sub consulta, EJ. select sum(campo) from (la misma tabla que esta en ON))-obtenemos la suma de las cantidades y lo asignamos a la variable
+	insert into (2da tabla) values (valores)
+	END ---- fin de las sentencias
+
+	// Creacion de un trigger que cada vez que elimina en la tabla de ON, va actualiza la 2da tabla que guarda los valores de la tabla ON 
+
+	CREATE TRIGGER (nombre del trigger)
+	ON (nombre de la 1ra tabla) --Indicamos la tabla donde se activara la accion 
+	FOR DELETE --Despues del evento de insertar en la tabla donde se activara la accion
+	AS
+	BEGIN--Comienza las sentencias
+	DECLARE (nombre de la variable) (tipo de dato) SET (nombre de la variable) = (sub consulta, EJ. select sum(campo) from (la misma tabla que esta en ON))-obtenemos la suma de las cantidades y lo asignamos a la variable
+	UPDATE (2da tabla donde se reflejaran los cambios) SET (nombre de tabla).(campo) = (nombre de la variable) --hacemos un update a la 2da tabla
+	END -- fin de las sentencias
+
+	// Activar o Desativar Trigger
+
+	ALTER TABLE (nombre de la tabla) ENABLE/DISABLE TRIGGER (nombre del trigger)
+
+}
+
+INDICES
+{
+	EXEC SP_HELPINDEX ('nombre de la tabla') --> verifica si una tabla tiene indices.
+
+	CREATE CLUSTERED INDEX (IDX_ + nombre) ON (nombre de la tabla) ("campo de la tabla") --> creacion de indice agrupado.
+
+	CREATE NONCLUSTERED INDEX (IDX_ + nombre) ON (nombre de la tabla) ("campo de la tabla") --> creacion de indice no agrupado.
 
 }
